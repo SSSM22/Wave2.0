@@ -133,7 +133,23 @@ def update_resume(text):
             l='moddin'
             m="mail.dom"
             p=167885
-    
+            text=""
+            link=""
+            git=""
+            clgname=""
+            year="" 
+            company=""
+            tp1=""
+            tp2=""
+            tp3=""
+            dp1=""
+            dp2=""
+            dp3=""
+            ach1=""
+            ach2=""
+            ach3=""
+            skill=""
+            experience=""
             # Fill the template
             document = Document('res\download.docx')
             for paragraph in document.paragraphs:
@@ -143,16 +159,44 @@ def update_resume(text):
                     paragraph.text = paragraph.text.replace('first_name', f)
                 if 'last_name' in paragraph.text:
                     paragraph.text = paragraph.text.replace('last_name', l)
-                if 'email' in paragraph.text:
+                if 'contact' in paragraph.text:
                     paragraph.text = paragraph.text.replace('contact', m)
+                if 'linkedin' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('linkedin',link)
+                if 'github' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('github',git)
                 if 'phone_number' in paragraph.text:
                     paragraph.text = paragraph.text.replace('phone_number', str(p))
-                if 'education' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('education', resume.education)
-                if 'experience' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('experience', resume.experience)
-                if 'skills' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('skills', resume.skills)
+                if 'batchlor_degree_name' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('batchlor_degree_name', clgname)
+                if 'graduation' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('graduation',link)
+                if 'lang' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('lang',skill)
+                if 'Expe_t' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Expe_t', experience)
+                if 'year' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('year',year)
+                if 'Cmp_name' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Cmp_name',company)
+                if 'Project_1t' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Project_1t',tp1)
+                if 'Project_2t' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Project_2t',tp2)
+                if 'Project_3t' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Project_3t',tp3)
+                if 'Project_1d' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Project_1d',dp1)
+                if 'Project_2d' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Project_2d',dp2)
+                if 'Project_3d' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Project_3d',dp3)
+                if 'Achieve1' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Achieve1',ach1)
+                if 'Achieve2' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Achieve2',ach2)
+                if 'Achieve3' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('Achieve1',ach3)    
             # Save the filled document
             document.save('res\download.docx')
             file_path = os.path.join('res/','download.docx')
