@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-v#3+1+e7ryf#$-!wo&s+mzkd3r8egb77)je*qapy#xom3ud8%*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*','localhost'] 
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 
 # Application definition
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'res',
 ]
 
@@ -48,7 +51,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',  # React default port = 3000
+    'http://localhost:8000',  # Django default port = 8000
+)
 
 ROOT_URLCONF = 'resume.urls'
 
@@ -81,7 +92,7 @@ DATABASES = {
         'USER': 'root', #sssm
         'HOST': 'localhost',#vardhamanstudent-data.mysql.database.azure.com', 
         'PORT': 3306,
-        'PASSWORD': 'root',#'abcd1234!@', #root
+        'PASSWORD': '22EC1U3Inisl#wiswAPe',#'abcd1234!@', #root
     }
 }
 

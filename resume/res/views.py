@@ -15,6 +15,7 @@ import shutil
 import mimetypes
 from django.http import FileResponse, Http404
 import os
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 service = ChromeService(ChromeDriverManager().install())
@@ -22,10 +23,13 @@ def index(request):
     
     return render(request,'index.html')
 
+@csrf_exempt
 def details(request):
  if request.method == 'POST':
     headers = {"cookie": "CONSENT=YES+cb.20230531-04-p0.en+FX+908"}
-    link=request.POST['link']
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    link = body['link']
     # link='https://internshala.com/internship/detail/work-from-home-php-development-internship-at-areeyarath-boonsoontornpat1718254017'
     if 'internshala' in link:
         response=requests.get(link,headers=headers)
