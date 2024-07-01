@@ -15,13 +15,14 @@ import shutil
 import mimetypes
 from django.http import FileResponse, Http404
 import os
+from .models import Users
 
 # Create your views here.
 service = ChromeService(ChromeDriverManager().install())
 def index(request):
     
     return render(request,'index.html')
-
+Users=Users.objects.all().filter(userid=2)
 def details(request):
  if request.method == 'POST':
     headers = {"cookie": "CONSENT=YES+cb.20230531-04-p0.en+FX+908"}
@@ -74,7 +75,7 @@ def generate_content(job_des,skills=None):
                 {
                     "parts": [
                         {
-                         "text": f'make an objective for my resume with job description {job_des} and skills {skills}'
+                         "text": f'make an objective in 30 words for my resume with job description {job_des} and skills {skills}'
                         }
                     ]
                 }
@@ -126,39 +127,54 @@ def generate_content(job_des,skills=None):
 
 
 def update_resume(text):
-#  if request.method == 'POST':
-#         if form.is_valid():
+            
+            
             shutil.copy(r'res\sesume_template.docx', r'res\download.docx')
-            f='nasum'
-            l='moddin'
-            m="mail.dom"
-            p=167885
-            text=""
-            link=""
-            git=""
-            clgname=""
-            year="" 
-            company=""
-            tp1=""
-            tp2=""
-            tp3=""
-            dp1=""
-            dp2=""
-            dp3=""
-            ach1=""
-            ach2=""
-            ach3=""
-            skill=""
-            experience=""
+            f=Users.values_list('name')[0][0]
+            m=Users.values_list('email')[0][0]
+            p=Users.values_list('contact')[0][0]
+            link=Users.values_list('linkedin')[0][0]
+            git=Users.values_list('github')[0][0]
+            clgname=Users.values_list('education')[0][0].split(',')[0]
+            graduation=Users.values_list('education')[0][0].split(',')[1]
+            second=Users.values_list('education')[0][0].split(',')[2]
+            s_year=Users.values_list('education')[0][0].split(',')[3]
+            tp1=Users.values_list('project1')[0][0].split(',')[0]
+            tp2=Users.values_list('project2')[0][0].split(',')[0]
+            tp3=Users.values_list('project3')[0][0].split(',')[0]
+            dp1=Users.values_list('project1')[0][0].split(',')[1]
+            dp2=Users.values_list('project2')[0][0].split(',')[1]
+            dp3=Users.values_list('project3')[0][0].split(',')[1]
+            ach1=Users.values_list('achievements')[0][0].split(',')[0]
+            ach2=Users.values_list('achievements')[0][0].split(',')[1]
+            ach3=Users.values_list('achievements')[0][0].split(',')[2]
+            skill=Users.values_list('skills')[0][0].split(';')[0]
+            wf=Users.values_list('skills')[0][0].split(';')[1]
+            company=Users.values_list('experience')[0][0].split(',')[1]
+            exp_t=Users.values_list('experience')[0][0].split(',')[0]
+            year=Users.values_list('experience')[0][0].split(',')[2]
+            place=Users.values_list('place')[0][0]
             # Fill the template
+            data = json.loads(text)
+            
+            text = data['candidates'][0]['content']['parts'][0]['text']
+            prefix_to_remove = "**Objective:**"
+            text = text.replace(prefix_to_remove, "")
+            print(text)
             document = Document('res\download.docx')
             for paragraph in document.paragraphs:
-                if 'object.ive' in paragraph.text:
-                    paragraph.text=paragraph.text.replace('object.ive',text)
-                if 'first_name' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('first_name', f)
-                if 'last_name' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('last_name', l)
+                if 'wf' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('wf',wf)
+                if 'second' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('second',second)
+                if 's_y' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('s_y',s_year)
+                if 'place_of_job' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('place_of_job',place)
+                if 'Object.ive' in paragraph.text:
+                    paragraph.text=paragraph.text.replace('Object.ive',text)
+                if 'name' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('name', f)
                 if 'contact' in paragraph.text:
                     paragraph.text = paragraph.text.replace('contact', m)
                 if 'linkedin' in paragraph.text:
@@ -167,18 +183,18 @@ def update_resume(text):
                     paragraph.text = paragraph.text.replace('github',git)
                 if 'phone_number' in paragraph.text:
                     paragraph.text = paragraph.text.replace('phone_number', str(p))
-                if 'batchlor_degree_name' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('batchlor_degree_name', clgname)
+                if 'batchlor_degree' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('batchlor_degree', clgname)
                 if 'graduation' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('graduation',link)
+                    paragraph.text = paragraph.text.replace('graduation',graduation)
                 if 'lang' in paragraph.text:
                     paragraph.text = paragraph.text.replace('lang',skill)
                 if 'Expe_t' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('Expe_t', experience)
+                    paragraph.text = paragraph.text.replace('Expe_t', exp_t)
                 if 'year' in paragraph.text:
                     paragraph.text = paragraph.text.replace('year',year)
-                if 'Cmp_name' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('Cmp_name',company)
+                if 'cmp' in paragraph.text:
+                    paragraph.text = paragraph.text.replace('cmp',company)
                 if 'Project_1t' in paragraph.text:
                     paragraph.text = paragraph.text.replace('Project_1t',tp1)
                 if 'Project_2t' in paragraph.text:
@@ -196,7 +212,7 @@ def update_resume(text):
                 if 'Achieve2' in paragraph.text:
                     paragraph.text = paragraph.text.replace('Achieve2',ach2)
                 if 'Achieve3' in paragraph.text:
-                    paragraph.text = paragraph.text.replace('Achieve1',ach3)    
+                    paragraph.text = paragraph.text.replace('Achieve3',ach3)    
             # Save the filled document
             document.save('res\download.docx')
             file_path = os.path.join('res/','download.docx')
