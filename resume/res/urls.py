@@ -8,5 +8,5 @@ from django.urls import re_path
 urlpatterns=[
     path('',views.index,name='index'),
     path('details',views.details,name='details'),
-    path('update',views.update_resume,name='update_resume'),
+    # path('update',views.update_resume,name='update_resume'),
 ]

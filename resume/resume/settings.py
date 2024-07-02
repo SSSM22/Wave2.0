@@ -25,10 +25,9 @@ SECRET_KEY = 'django-insecure-v#3+1+e7ryf#$-!wo&s+mzkd3r8egb77)je*qapy#xom3ud8%*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','localhost'] 
+ALLOWED_HOSTS = ["*","localhost"] 
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
-
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000","http://localhost:8000"]
 
 # Application definition
 
@@ -44,22 +43,27 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = False
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000','http://localhost:8000']
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',  # React default port = 3000
-    'http://localhost:8000',  # Django default port = 8000
+    'http://localhost:3000',
+    'http://localhost:8000',
 )
+
+CORS_ALLOW_HEADERS = ['*','http://localhost:3000','http://localhost:8000']
 
 ROOT_URLCONF = 'resume.urls'
 
